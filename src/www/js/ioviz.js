@@ -27,15 +27,13 @@ function create_graph(benchmark, title, ticks, data)
 	var container = $('<div class="flotr"></div>');
 	container.appendTo($('#ioviz'));
 
-	var ticks = [[0,'4'],[1,'8'],[2,'16'],[3,'32'],[4,'64'],[5,'128'],[6,'256'],[7,'512'],[8,'1024'],[9,'2048'],[10,'4096'],[11,'8192'],];
-
 	var tmp = [];
 	for (var run in data)
 	{
 		var tmp2 = [];
 		for (var i in data[run])
 		{
-			tmp2.push([i, data[run][i] / 1024]);
+			tmp2.push([ticks[run][i], data[run][i] / 1024]);
 		}
 
 		tmp.push({
@@ -47,14 +45,15 @@ function create_graph(benchmark, title, ticks, data)
 
 	Flotr.draw(container[0], data, {
 		'xaxis': {
-			'ticks': ticks,
+			'scaling': 'logarithmic',
+			'base': 2,
 		},
 		'grid': {
 			'verticalLines': true,
 			'backgroundColor': {
 				'colors': [[0, '#fff'],[1, '#eee']],
 				'start': 'top',
-				'end': 'bottom'
+				'end': 'bottom',
 			}
 		},
 		'legend': {position: 'ne'},
