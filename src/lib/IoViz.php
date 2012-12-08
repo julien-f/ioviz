@@ -39,6 +39,42 @@ final class IoViz extends Base
 	/**
 	 *
 	 */
+	function getBenchmarks()
+	{
+		$manager = $this->_di->get('manager');
+		$benchmarks = $manager->search('benchmark');
+		foreach ($benchmarks as &$benchmark)
+		{
+			$benchmark = new Benchmark(
+				$benchmark,
+				$manager
+			);
+		}
+
+		return $benchmarks;
+	}
+
+	/**
+	 *
+	 */
+	function getResults()
+	{
+		$manager = $this->_di->get('manager');
+		$results = $manager->search('result');
+		foreach ($results as &$result)
+		{
+			$result = new Result(
+				$result,
+				$manager
+			);
+		}
+
+		return $results;
+	}
+
+	/**
+	 *
+	 */
 	function getResult($id)
 	{
 		$manager = $this->_di->get('manager');
@@ -72,6 +108,17 @@ final class IoViz extends Base
 		$result->save($this->_di->get('manager'));
 
 		return $result;
+	}
+
+	/**
+	 *
+	 */
+	function deleteResult($id)
+	{
+		return (bool) $this->_di->get('manager')->delete(
+			'result',
+			array('id' => $id)
+		);
 	}
 
 	/**

@@ -23,7 +23,13 @@
 
 $ioviz = require(dirname(__FILE__).'/../bootstrap.php');
 
-$results = $ioviz->getResults();
+if (!isset($_GET['id']) || !is_numeric($_GET['id']))
+{
+	header('Content-Type: text/plain', 400);
+	die('missing graph identifier');
+}
+
+$result = $ioviz->getResult((int)$_GET['id']);
 ?>
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
@@ -40,7 +46,7 @@ $results = $ioviz->getResults();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="css/bootstrap-responsive.css" rel="stylesheet">
 
-    <link rel="stylesheet" href="css/font-awesome.css" />
+    <link rel="stylesheet" href="../css/font-awesome.css" />
 
     <link rel="stylesheet" href="css/flotr2.css" type="text/css" />
     <script type="text/javascript" src="js/flotr2.js"></script>
@@ -48,57 +54,28 @@ $results = $ioviz->getResults();
     <script type="text/javascript" src="js/ioviz.js"></script>
   </head>
   <body>
-    <div class="container">
-      <h1>IoViz</h1>
-      <h2>Existing graphs</h2>
+    <div class="container-fluid">
+      <h1><?php echo htmlspecialchars($result->benchmark->name); ?></h1>
+      <div id="ioviz"></div>
+      <script type="text/javascript">
+// <![CDATA[
 <?php
-$n = count($results);
-if ($n === 0)
+$data = $result->getData();
+$ticks = json_encode($data['Reclen']); unset($data['Reclen']);
+
+echo "var ticks = $ticks;", PHP_EOL;
+
+foreach ($data as $title => $data)
 {
-	echo '<p class="text-warning">No graphs.</p>';
-}
-else
-{
-	echo  '<p><em>', $n, '</em> graphs.</p><ul>';
-	foreach ($results as $result)
-	{
-		$title = ($result->group !== null)
-			? $result->group->name.' - '
-			: ''
-			;
+	$benchmark = json_encode($result->benchmark->name);
+	$title     = json_encode($title);
+	$data      = json_encode($data);
 
-		$title .= $result->benchmark->name.' - ';
-
-		$title .= $result->date->format('c');
-
-		echo
-			'<li><a href="graph.php?id=', $result->id, '">',
-			htmlspecialchars($title),
-			'</a> <a class="btn btn-mini btn-danger" title="Delete this result." href="delete.php?id=',
-			$result->id, '"><i class="icon-remove"></i></a></li>';
-	}
-	echo '</ul>';
+	echo "create_graph($benchmark, $title, ticks, $data);", PHP_EOL;
 }
 ?>
-      <h2>Import a new graph</h2>
-      <form action="import.php" method="post" enctype="multipart/form-data">
-        <label>Benchmark</label>
-        <select name="benchmark">
-<?php
-$benchmarks = $ioviz->getBenchmarks();
-foreach ($benchmarks as $benchmark)
-{
-	echo
-		'<option value="', $benchmark->id, '">',
-		htmlspecialchars($benchmark->name),
-		'</option>';
-}
-?>
-        </select>
-        <label>IOZone result file</label>
-        <div><input type="file" name="file" /></div>
-        <input type="submit" value="Import" />
-      </form>
+// ]]>
+      </script>
     </div>
   </body>
 </html>

@@ -24,7 +24,7 @@ function create_graph(benchmark, title, ticks, data)
 {
 	'use strict';
 
-	var container = $('<div class="flot"></div>');
+	var container = $('<div class="flotr"></div>');
 	container.appendTo($('#ioviz'));
 
 	var ticks = [[0,'4'],[1,'8'],[2,'16'],[3,'32'],[4,'64'],[5,'128'],[6,'256'],[7,'512'],[8,'1024'],[9,'2048'],[10,'4096'],[11,'8192'],];

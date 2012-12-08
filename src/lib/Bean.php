@@ -38,72 +38,75 @@ abstract class Bean extends Base
 	 */
 	final function __construct(array $attrs = null, Manager $manager = null)
 	{
-		parent::__construct();
-
-		$this->_attrs   = (array) $attrs;
-		$this->_manager = $manager;
-
 		$class = get_class($this);
-		if (isset(self::$_props[$class]))
+		if (!isset(self::$_props[$class]))
 		{
-			return;
-		}
+			self::$_props[$class] = call_user_func(array($class, '_initProperties'));
+			foreach (self::$_props[$class] as $name => &$prop)
+			{
+				if (isset($prop['nullable']) && $prop['nullable'])
+				{
+					$prop['nullable'] = true;
+				}
+				else
+				{
+					unset($prop['nullable']);
+				}
 
-		self::$_props[$class] = call_user_func(array($class, '_initProperties'));
-		foreach (self::$_props[$class] as $name => &$prop)
-		{
-			if (isset($prop['nullable']) && $prop['nullable'])
-			{
-				$prop['nullable'] = true;
-			}
-			else
-			{
-				unset($prop['nullable']);
-			}
-
-			if ($name === 'id')
-			{
-				trigger_error(
-					'“id” is reserved to the uniq identifier',
-					E_USER_ERROR
-				);
-			}
-
-			if ($prop['type'] === self::T_RELATION)
-			{
-				if (!isset($prop['class']))
+				if ($name === 'id')
 				{
 					trigger_error(
-						'“class” entry required for '.$class.'->'.$name,
+						'“id” is reserved to the uniq identifier',
 						E_USER_ERROR
 					);
 				}
 
-				self::$_props[$class][$name.'_id'] = array(
-					'type' => self::T_INTEGER,
-					'get'  => true,
-					'set'  => true,
-				);
-				if (isset($prop['nullable']))
+				if ($prop['type'] === self::T_RELATION)
 				{
-					self::$_props[$class][$name.'_id']['nullable'] = true;
+					if (!isset($prop['class']))
+					{
+						trigger_error(
+							'“class” entry required for '.$class.'->'.$name,
+							E_USER_ERROR
+						);
+					}
+
+					self::$_props[$class][$name.'_id'] = array(
+						'type' => self::T_INTEGER,
+						'get'  => true,
+						'set'  => true,
+					);
+					if (isset($prop['nullable']))
+					{
+						self::$_props[$class][$name.'_id']['nullable'] = true;
+					}
 				}
-			}
-			elseif (isset($prop['class']))
-			{
-				trigger_error(
-					'“class” entry is reserved for relations '.$class.'->'.$name,
-					E_USER_ERROR
-				);
+				elseif (isset($prop['class']))
+				{
+					trigger_error(
+						'“class” entry is reserved for relations '.$class.'->'.$name,
+						E_USER_ERROR
+					);
+				}
+
+				$prop['get'] = $prop['set'] = true;
 			}
 
-			$prop['get'] = $prop['set'] = true;
+			self::$_props[$class]['id'] = array(
+				'type' => self::T_INTEGER,
+				'get'  => true,
+				'set'  => true, // @todo To fix.
+			);
 		}
 
-		self::$_props[$class]['id'] = array(
-			'type' => self::T_INTEGER,
-			'get'  => true,
-		);
+		parent::__construct();
+
+		$this->_manager = $manager;
+
+		foreach (((array) $attrs) as $name => $value)
+		{
+			$this->__set($name, $value);
+		}
 	}
 
 	/**
@@ -129,6 +132,11 @@ abstract class Bean extends Base
 		// If it is a relation, gets the related object.
 		if (self::$_props[$class][$name]['type'] === self::T_RELATION)
 		{
+			if ($this->_attrs[$name.'_id'] === null)
+			{
+				return ($this->_attrs[$name] = null);
+			}
+
 			$class = self::$_props[$class][$name]['class'];
 
 			$props = $this->_manager->search(
@@ -136,7 +144,7 @@ abstract class Bean extends Base
 				array('id' => $this->_attrs[$name.'_id']),
 				1
 			);
-			$object = new $class(reset($props));
+			$object = new $class(reset($props), $this->_manager);
 
 			return ($this->_attrs[$name] = $object);
 		}
@@ -249,7 +257,7 @@ abstract class Bean extends Base
 	/**
 	 * @var array
 	 */
-	private $_attrs;
+	private $_attrs = array();
 
 	/**
 	 * @var array
