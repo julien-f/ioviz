@@ -23,7 +23,13 @@
 
 $ioviz = require(dirname(__FILE__).'/../bootstrap.php');
 
+$results = array();
+foreach ($ioviz->getResults() as $result)
+{
+	$results[$result->id] = $result->getTitle();
+}
+
 $ioviz->getTemplate('/pages/index.html')->render(array(
 	'benchmarks' => $ioviz->getBenchmarks(),
-	'results'    => $ioviz->getResults(),
+	'results'    => $results,
 ));

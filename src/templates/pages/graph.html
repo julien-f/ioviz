@@ -24,13 +24,20 @@
 
 {block title}{$title}{/block}
 
+{block extra_html_headers}
+	<link rel="stylesheet" href="css/flotr2.css" type="text/css" />
+	<script type="text/javascript" src="js/flotr2.js"></script>
+{/block}
+
 {block content}
-<h1>{$title}</h1>
-<div id="ioviz"></div>
-<script type="text/javascript">
-// <![CDATA[
-var ticks = {$ticks|json};
-{foreach $graphs as $title_ => $data}create_graph({$title|json}, {$title_|json}, ticks, {$data|json});
-{/foreach}// ]]>
-</script>
+	<h2>{$title}</h2>
+	<div id="ioviz"></div>
+	<script type="text/javascript">
+		// <![CDATA[
+		var ticks = {$ticks|json};
+		{foreach $graphs as $title_ => $data}
+			create_graph({$title|json}, {$title_|json}, ticks, {$data|json});
+		{/foreach}
+		// ]]>
+	</script>
 {/block content}

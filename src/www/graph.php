@@ -34,7 +34,7 @@ $data   = $result->getData();
 $ticks  = $data['Reclen']; unset($data['Reclen']);
 
 $ioviz->getTemplate('/pages/graph.html')->render(array(
-	'title'  => $result->title,
+	'title'  => $result->getTitle(),
 	'ticks'  => $ticks,
 	'graphs' => $data,
 ));

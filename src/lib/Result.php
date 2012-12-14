@@ -24,7 +24,7 @@
 /**
  *
  */
-final class Result extends Bean
+final class Result extends Gallic_Bean
 {
 	function getData()
 	{
@@ -44,17 +44,17 @@ final class Result extends Bean
 	{
 		return array(
 			'benchmark' => array(
-				'type'  => Bean::T_RELATION,
+				'type'  => Gallic_Bean::T_RELATION,
 				'class' => 'Benchmark',
 			),
 			'group'     => array(
-				'type'     => Bean::T_RELATION,
+				'type'     => Gallic_Bean::T_RELATION,
 				'class'    => 'Group',
 				'nullable' => true,
 			),
-			'date'      => array('type' => Bean::T_DATETIME),
-			'data'      => array('type' => Bean::T_STRING),
-			'comment'   => array('type' => Bean::T_STRING),
+			'date'      => array('type' => Gallic_Bean::T_DATETIME),
+			'data'      => array('type' => Gallic_Bean::T_STRING),
+			'comment'   => array('type' => Gallic_Bean::T_STRING),
 		);
 	}
 }

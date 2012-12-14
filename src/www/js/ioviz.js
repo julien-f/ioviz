@@ -77,3 +77,12 @@ function create_graph(benchmark, title, ticks, data)
 		'subtitle': benchmark,
 	});
 }
+
+$(function() {
+	$('a[data-confirm]').click(function(e) {
+		if (!window.confirm($(this).attr('data-confirm')))
+		{
+			e.preventDefault();
+		}
+	});
+});

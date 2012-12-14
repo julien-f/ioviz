@@ -24,13 +24,13 @@
 /**
  *
  */
-final class Benchmark extends Bean
+final class Benchmark extends Gallic_Bean
 {
 	protected static function _initProperties()
 	{
 		return array(
-			'name'    => array('type' => Bean::T_STRING),
-			'comment' => array('type' => Bean::T_STRING),
+			'name'    => array('type' => Gallic_Bean::T_STRING),
+			'comment' => array('type' => Gallic_Bean::T_STRING),
 		);
 	}
 }

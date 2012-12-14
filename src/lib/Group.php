@@ -24,19 +24,19 @@
 /**
  *
  */
-final class Group extends Bean
+final class Group extends Gallic_Bean
 {
 	protected static function _initProperties()
 	{
 		return array(
-			'type'    => array('type' => Bean::T_STRING),
+			'type'    => array('type' => Gallic_Bean::T_STRING),
 			'parent'  => array(
-				'type'    => Bean::T_RELATION,
+				'type'    => Gallic_Bean::T_RELATION,
 				'class'   => 'Group',
 				'nullable'=> true,
 			),
-			'name'    => array('type' => Bean::T_STRING),
-			'comment' => array('type' => Bean::T_STRING),
+			'name'    => array('type' => Gallic_Bean::T_STRING),
+			'comment' => array('type' => Gallic_Bean::T_STRING),
 		);
 	}
 }

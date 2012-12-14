@@ -94,7 +94,7 @@ final class DI extends Base
 			$config->get('database.password', null)
 		);
 
-		return new Manager_Pdo($db);
+		return new Gallic_Manager_Pdo($db);
 	}
 
 	private function _init_parser_iozone()

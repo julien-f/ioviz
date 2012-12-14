@@ -19,31 +19,18 @@
  *
  * @package IoViz
  *}
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
 
-    <title>{block title}IoViz{/block}</title>
+{**
+ * This template must be used for normal pages (non wide).
+ *
+ * See “base.html” for more info.
+ *}
+{extends "/base/base.html"}
+{block body}
+	<div class="container">
 
-    <script type="text/javascript" src="js/jquery.js"></script>
+		{* This is where the content should be. *}
+		{block content}{/block}
 
-    <link href="css/bootstrap.css" rel="stylesheet" media="screen" />
-    {* <script src="js/bootstrap.js"></script> *}
-
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="css/bootstrap-responsive.css" rel="stylesheet">
-
-    <link rel="stylesheet" href="css/font-awesome.css" />
-
-    <link rel="stylesheet" href="css/flotr2.css" type="text/css" />
-    <script type="text/javascript" src="js/flotr2.js"></script>
-
-    <script type="text/javascript" src="js/ioviz.js"></script>
-  </head>
-  <body>
-    <div class="container">
-	 {block content}{/block}
-    </div>
-  </body>
-</html>
+	</div>
+{/block body}

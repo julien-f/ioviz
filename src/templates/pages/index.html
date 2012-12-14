@@ -25,37 +25,37 @@
 {block title}Existing results{/block}
 
 {block content}
-<h2>Existing graphs</h2>
-{if $results}
-  <p><em>{$results|count}</em> graphs.</p>
-  <ul>
-    {foreach $results as $result}
-    <li>
-      <a href="{url to="graph" id=$result.id}">
-        {$result.title}
-      </a>
-      <a href="{url to="delete" id=$result.id}" class="btn btn-mini btn-danger" title="Delete this result.">
-        <i class="icon-remove"></i>
-      </a>
-    </li>
-  {/foreach}
-  </ul>
-{else}
-  <p class="text-warning">No graphs.</p>
-{/if}
+	<h2>Existing results</h2>
+	{if $results}
+		<p><em>{$results|count}</em> results.</p>
+		<ul>
+			{foreach $results as $id => $title}
+				<li>
+					<a href="{url to="graph" id=$id}">
+						{$title}
+					</a>
+					<a href="{url to="delete" id=$id}" title="Delete this result." class="text-error" data-confirm="Are your sure?">
+						<i class="icon-remove"></i>
+					</a>
+				</li>
+			{/foreach}
+		</ul>
+	{else}
+		<p class="text-warning">No results.</p>
+	{/if}
 
-<h2>Import a new graph</h2>
-<form action="import.php" method="post" enctype="multipart/form-data">
-  <label>Benchmark</label>
-  <select name="benchmark">
-    {foreach $benchmarks as $benchmark}
-    <option value="{$benchmark.id}">
-      {$benchmark.name}
-    </option>
-    {/foreach}
-  </select>
-  <label>IOZone result file</label>
-  <div><input type="file" name="file" /></div>
-  <input type="submit" value="Import" />
-</form>
+	<h2>Import a new result</h2>
+	<form action="import.php" method="post" enctype="multipart/form-data">
+		<label>Benchmark</label>
+		<select name="benchmark">
+			{foreach $benchmarks as $benchmark}
+				<option value="{$benchmark.id}">
+					{$benchmark.name}
+				</option>
+			{/foreach}
+		</select>
+		<label>IOZone result file</label>
+		<div><input type="file" name="file" /></div>
+		<button type="submit" class="btn btn-primary">Import</button>
+	</form>
 {/block content}
