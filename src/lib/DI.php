@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with IoViz. If not, see <http://www.gnu.org/licenses/>.
  *
- * @author Julien Fontanet <julien.fontanet@isonoe.net>
+ * @author Julien Fontanet <julien.fontanet@vates.fr>
  * @license http://www.gnu.org/licenses/gpl-3.0-standalone.html GPLv3
  *
  * @package IoViz
@@ -100,5 +100,13 @@ final class DI extends Base
 	private function _init_parser_iozone()
 	{
 		return new Parser_IOzone;
+	}
+
+	private function _init_template_manager()
+	{
+		return new Gallic_Template_Manager(
+			$this->get('config')->get('root_dir').'/templates',
+			0
+		);
 	}
 }

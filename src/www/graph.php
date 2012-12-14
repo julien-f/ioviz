@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with IoViz. If not, see <http://www.gnu.org/licenses/>.
  *
- * @author Julien Fontanet <julien.fontanet@isonoe.net>
+ * @author Julien Fontanet <julien.fontanet@vates.fr>
  * @license http://www.gnu.org/licenses/gpl-3.0-standalone.html GPLv3
  *
  * @package IoViz
@@ -30,52 +30,11 @@ if (!isset($_GET['id']) || !is_numeric($_GET['id']))
 }
 
 $result = $ioviz->getResult((int)$_GET['id']);
-?>
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
+$data   = $result->getData();
+$ticks  = $data['Reclen']; unset($data['Reclen']);
 
-    <title>IoViz</title>
-
-    <script type="text/javascript" src="js/jquery.js"></script>
-
-    <link href="css/bootstrap.css" rel="stylesheet" media="screen" />
-    <!--<script src="js/bootstrap.js"></script>-->
-
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="css/bootstrap-responsive.css" rel="stylesheet">
-
-    <link rel="stylesheet" href="../css/font-awesome.css" />
-
-    <link rel="stylesheet" href="css/flotr2.css" type="text/css" />
-    <script type="text/javascript" src="js/flotr2.js"></script>
-
-    <script type="text/javascript" src="js/ioviz.js"></script>
-  </head>
-  <body>
-    <div class="container-fluid">
-      <h1><?php echo htmlspecialchars($result->benchmark->name); ?></h1>
-      <div id="ioviz"></div>
-      <script type="text/javascript">
-// <![CDATA[
-<?php
-$data = $result->getData();
-$ticks = json_encode($data['Reclen']); unset($data['Reclen']);
-
-echo "var ticks = $ticks;", PHP_EOL;
-
-foreach ($data as $title => $data)
-{
-	$benchmark = json_encode($result->benchmark->name);
-	$title     = json_encode($title);
-	$data      = json_encode($data);
-
-	echo "create_graph($benchmark, $title, ticks, $data);", PHP_EOL;
-}
-?>
-// ]]>
-      </script>
-    </div>
-  </body>
-</html>
+$ioviz->getTemplate('/pages/graph.html')->render(array(
+	'title'  => $result->title,
+	'ticks'  => $ticks,
+	'graphs' => $data,
+));

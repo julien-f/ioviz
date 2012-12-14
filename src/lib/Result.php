@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with IoViz. If not, see <http://www.gnu.org/licenses/>.
  *
- * @author Julien Fontanet <julien.fontanet@isonoe.net>
+ * @author Julien Fontanet <julien.fontanet@vates.fr>
  * @license http://www.gnu.org/licenses/gpl-3.0-standalone.html GPLv3
  *
  * @package IoViz
@@ -29,6 +29,15 @@ final class Result extends Bean
 	function getData()
 	{
 		return json_decode($this->data, true);
+	}
+
+	function getTitle()
+	{
+		return (
+			($this->group !== null ? $this->group->name.' - ' : '')
+			.$this->benchmark->name.' - '
+			.$this->date->format('c')
+		);
 	}
 
 	protected static function _initProperties()

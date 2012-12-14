@@ -21,6 +21,26 @@
  * @package IoViz
  */
 
-$ioviz = require(dirname(__FILE__).'/../bootstrap.php');
+/**
+ *
+ */
+final class TemplateUtils
+{
+	static function url(Gallic_Template $tpl, array $parameters)
+	{
+		$url = $parameters['to'].'.php'; unset($parameters['to']);
 
-?>
+		if ($parameters)
+		{
+			foreach ($parameters as $key => &$value)
+			{
+				$value = $key.'='.urlencode($value);
+			}
+			$url .= '?'.implode('&', $parameters);
+		}
+		return $url;
+	}
+
+	private function __construct()
+	{}
+}

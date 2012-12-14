@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with IoViz. If not, see <http://www.gnu.org/licenses/>.
  *
- * @author Julien Fontanet <julien.fontanet@isonoe.net>
+ * @author Julien Fontanet <julien.fontanet@vates.fr>
  * @license http://www.gnu.org/licenses/gpl-3.0-standalone.html GPLv3
  *
  * @package IoViz
@@ -91,6 +91,23 @@ final class IoViz extends Base
 		}
 
 		return new Result(reset($results), $manager);
+	}
+
+	/**
+	 *
+	 */
+	function getTemplate($template)
+	{
+		$template = $this->_di->get('template.manager')->build($template);
+		$template->filters += array(
+			'count' => 'count',
+			'json'  => 'json_encode',
+		);
+		$template->functions += array(
+			'url' => array('TemplateUtils', 'url'),
+		);
+
+		return $template;
 	}
 
 	/**

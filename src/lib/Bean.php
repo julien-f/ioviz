@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with IoViz. If not, see <http://www.gnu.org/licenses/>.
  *
- * @author Julien Fontanet <julien.fontanet@isonoe.net>
+ * @author Julien Fontanet <julien.fontanet@vates.fr>
  * @license http://www.gnu.org/licenses/gpl-3.0-standalone.html GPLv3
  *
  * @package IoViz
@@ -126,6 +126,12 @@ abstract class Bean extends Base
 		// If no such property, fall backs on parent method.
 		if (!isset(self::$_props[$class][$name]['get']))
 		{
+			$method = array($this, 'get'.$name);
+			if (is_callable($method))
+			{
+				return $method();
+			}
+
 			return parent::__get($name);
 		}
 

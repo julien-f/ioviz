@@ -28,8 +28,21 @@ function create_graph(benchmark, title, ticks, data)
 	container.appendTo($('#ioviz'));
 
 	var tmp = [];
+	var min;
+	var max;
 	for (var run in data)
 	{
+		if ((min === undefined)
+			|| (min > +ticks[run][0]))
+		{
+			min = ticks[run][0];
+		}
+		if ((max === undefined)
+			|| (max < +ticks[run][ticks[run].length - 1]))
+		{
+			max = ticks[run][ticks[run].length - 1];
+		}
+
 		var tmp2 = [];
 		for (var i in data[run])
 		{
@@ -47,6 +60,8 @@ function create_graph(benchmark, title, ticks, data)
 		'xaxis': {
 			'scaling': 'logarithmic',
 			'base': 2,
+			'min': min,
+			'max': max,
 		},
 		'grid': {
 			'verticalLines': true,
