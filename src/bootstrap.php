@@ -46,18 +46,8 @@ function _bootstrap()
 			$app_env = 'development';
 		}
 
-		// Class autoloading.
-		if (!class_exists('Gallic'))
-		{
-			require('Gallic.php');
-		}
-		spl_autoload_register(array(
-			new Gallic_ClassLoader_Standard(
-				array($root_dir.'/lib')
-				+ explode(PATH_SEPARATOR, get_include_path())
-			),
-			'load'
-		));
+		// Class autoloading is done by composer.
+		require($root_dir.'/../vendor/autoload.php');
 
 		// Reads configuration.
 		$conffile = $root_dir.'/config.ini';

@@ -1,5 +1,5 @@
 {
-    "hash": "4920f3e994b7c18490e0acf1ae0a2926",
+    "hash": "f713981dd055b5c71e3df1889c5a7972",
     "packages": [
         {
             "name": "vates/gallic",
@@ -20,7 +20,6 @@
             },
             "time": "2012-12-17 14:25:36",
             "type": "library",
-            "installation-source": "dist",
             "autoload": {
                 "files": [
                     "src/Gallic.php"
@@ -45,16 +44,16 @@
         },
         {
             "name": "zendframework/zendframework1",
-            "version": "1.12.0",
+            "version": "1.12.1",
             "source": {
                 "type": "svn",
                 "url": "http://framework.zend.com/svn/framework/standard",
-                "reference": "/tags/release-1.12.0/@25051"
+                "reference": "/tags/release-1.12.1/@25165"
             },
             "require": {
-                "php": ">=5.2.4"
+                "php": ">=5.2.11"
             },
-            "time": "2012-08-27 17:35:21",
+            "time": "2012-12-18 17:24:42",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -69,7 +68,6 @@
                     "dev-release-1.11": "1.11.x-dev"
                 }
             },
-            "installation-source": "source",
             "autoload": {
                 "psr-0": {
                     "Zend": "library/"
